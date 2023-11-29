@@ -1,0 +1,6 @@
+*.pyc
+venv/
+oracle_helm/
+flink_examples/
+services/
+data/

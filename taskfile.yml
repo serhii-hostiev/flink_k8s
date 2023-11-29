@@ -1,0 +1,26 @@
+---
+version: '3'
+
+# load environment variables from .env file
+dotenv: [.local.env]
+
+tasks:
+  init:
+    desc: initialize repo for local development
+    cmds:
+      - minikube start -p flink --disk-size='40000mb' --driver docker --container-runtime docker --cpus 4 --memory 11962 --nodes 1 --mount-string ./data:/tdata --mount
+
+  down:
+    desc: show down local development
+    cmds:
+      - minikube delete -p flink
+
+  orc_helm:
+    desc: set up oracle helm character
+    cmds:
+      - rm -rf oracle_helm
+      - mkdir oracle_helm
+      - git clone https://github.com/oracle/docker-images.git ./oracle_helm
+      - helm package ./oracle_helm/OracleDatabase/SingleInstance/helm-charts/oracle-db
+
+# minikube start --nodes 3 -p elastic --driver=docker --cpus 4 --memory 6144

@@ -1,0 +1,50 @@
+
+# pulumi setup
+-  `pulumi login --local`
+
+# flink minukube cluster
+- `task init` - it will initialize flink cluster in your minikube
+
+
+# prerequisites
+- you need oracle ojdbc8.jar `https://download.oracle.com/otn-pub/otn_software/jdbc/233/ojdbc8.jar`
+- you need oracle debezium plugin `https://repo1.maven.org/maven2/io/debezium/debezium-connector-oracle/2.4.1.Final/debezium-connector-oracle-2.4.1.Final-plugin.tar.gz`
+- extract plugin into /data/plugins/debezium-connector-oracle
+- and put into /data/plugins/debezium-connector-oracle ojdbc8.jar
+
+
+# pulumi up
+there are 3 stacks in this pulumi project:
+
+1. setup all kafka services:
+- `pulumi stack select kafka`
+- `pulumi up`
+
+- open file \components\helm_values\kafka_ui_values.yml
+- line 32 - you need to replace kafka connect ip with valid one
+- `pulumi stack select kafka-ui`
+- `pulumi up`
+
+- to check if everything is fine - port forward of kafka ui and check services
+
+# run oracle
+- `pulumi stack select oracle`
+- `pulumi up`
+
+- to check oracle database status - get its pod logs `kubectl logs <pod_name>`
+- to connect to db from dbeaver - port forward to localhost
+- configure oracle db according to description in https://debezium.io/blog/2022/09/30/debezium-oracle-series-part-1/
+  keep in mind that you should use ORCL instead of ORCLCDB
+  password is `MyPass123`
+
+
+# run connector
+- open kafka ui in browser (you should have port forwarded it alreay)
+- get configuration from run.json file
+  replace database.hostname with valid ip
+
+
+# run flink
+do it only when you need flink, otherwise don'e launch it to not waste resources
+- `pulumi stack select flink`
+
