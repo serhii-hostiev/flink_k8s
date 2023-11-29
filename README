@@ -7,6 +7,8 @@
 
 
 # prerequisites
+- install proper minikube-darwin-amd64
+
 - you need oracle ojdbc8.jar `https://download.oracle.com/otn-pub/otn_software/jdbc/233/ojdbc8.jar`
 - you need oracle debezium plugin `https://repo1.maven.org/maven2/io/debezium/debezium-connector-oracle/2.4.1.Final/debezium-connector-oracle-2.4.1.Final-plugin.tar.gz`
 - extract plugin into /data/plugins/debezium-connector-oracle
